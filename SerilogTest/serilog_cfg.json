@@ -1,0 +1,53 @@
+﻿{
+  // konfigurace Serilogu, může být součástí většího JSON souboru
+  "Serilog": {
+    // nastavení minimálůního levelu záznamu "Verbose" je nejukecanější (nejnižší úroveň), Fatal je nejmíň ukecanej (nejvyšší úroveň)
+    "MinimumLevel": {
+      "Default": "Verbose"
+    },
+    // rozšíření možností serilogu o další proměnné (tato je ID vlákna, používá nuget serilog.enrichers.thread)
+    "Enrich": [ "WithThreadId" ],
+    // možnosti nakonfigurovat jednotlivé sinky (to je místa odesílání logovacích zpráv) - seznam sinků je velikánskej, vybral jsem tři nejpravděpodobnější
+    "WriteTo": [
+      {
+        // konzolovka, může být i ColoredConsole
+        "Name": "Console",
+        "Args": {
+          // jedním z argumentů je i specifický výpis pro daný záznam - musí být nastaven u každého sinku
+          "outputTemplate": "[{Timestamp:HH:mm:ss.fff} {ThreadId} {EventType:x8} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+        }
+      },
+      {
+        // odeslání na e-mail
+        "Name": "Email",
+        "Args": {
+          // informace o mailserveru, předmětu a dalších
+          "connectionInfo": {
+            // při testování si sem nastavte Email from a Email To
+            "FromEmail": "YourEmail",
+            "ToEmail": "YourEmail",
+            // pokud nemáte mejl u Pody, je nutné změnit mailserver (smtp) na váš daný (např u gmailu je to "smtp.gmail.com")
+            "MailServer": "mail.poda.cz",
+            // zde by bylo možné vytvořit si vlastní Enricher (použití Usingu pro namespace, kde je daný enricher uložen, a dále v kolonce "Enrich" doplnit tento enricher)
+            "EmailSubject": "Fatal error",
+            "Port": 25
+          },
+          // nastavení, overidenutí, levelu záznamu, to znamená, že v tomto sinku se budou zapisovat pouze zprávy s levele Fatal a vyšší (tedy žádné další)
+          "restrictedToMinimumLevel": "Fatal",
+          // jedním z argumentů je i specifický výpis pro daný záznam - musí být nastaven u každého sinku
+          "outputTemplate": "[{Timestamp:HH:mm:ss.fff} {ThreadId} {EventType:x8} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+        }
+      },
+      {
+        "Name": "File",
+        "Args": {
+          "Path": "log.txt",
+          // nastavení, overidenutí, levelu záznamu, to znamená, že v tomto sinku se budou zapisovat pouze zprávy s levele information a vyšší (warning, error, fatal)
+          "restrictedToMinimumLevel": "Information",
+          // jedním z argumentů je i specifický výpis pro daný záznam - musí být nastaven u každého sinku
+          "outputTemplate": "[{Timestamp:HH:mm:ss.fff} {ThreadId} {EventType:x8} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+        }
+      }
+    ]
+  }
+}
