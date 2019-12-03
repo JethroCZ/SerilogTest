@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Castle.Core.Logging;
 
 namespace SerilogTest
@@ -7,6 +6,7 @@ namespace SerilogTest
     public class App : IApp
     {
         private readonly ILogger m_logger;
+        private string m_ndc = string.Empty;
 
         public App(ILogger logger)
         {
@@ -15,26 +15,20 @@ namespace SerilogTest
 
         public void RunApplication()
         {
-            // Vytvoření konfigurace z JSON souboru (může být i zanořená ve webapi.json, serilog si vezme svoji část)
-            Parallel.For(0, 10, (iteration) =>
-                {
-                    // Otestování jednotlivých záznamů, podle nastavení v JSON se budou zapisovat 
-                    // pouze do konzole
-                    m_logger.Trace($"Zapisuji iteraci {iteration}: Trace");
-                    m_logger.Debug($"Zapisuji iteraci {iteration}: Debug");
+            ShowDebug();
+            ShowError();
+        }
 
+        private void ShowDebug()
+        {
+            Console.WriteLine("Zápis do logu: typ Debug.");
+            m_logger.Debug("Toto je Debugovací zpráva.");
+        }
 
-                    // do konzole a do souboru
-                    m_logger.Info($"Zapisuji iteraci {iteration}: Information");
-                    m_logger.Warn($"Zapisuji iteraci {iteration}: Warning");
-                    m_logger.Error($"Zapisuji iteraci {iteration}: Error");
-
-                    //// do konzole, souboru, a odešle se i email
-                    m_logger.Fatal($"Zapisuji iteraci {iteration}: Fatal");
-                }
-            );
-            
-            Console.WriteLine("Hello World!");
+        private void ShowError()
+        {
+            Console.WriteLine("Zápis do logu: typ Error.");
+            m_logger.Error("Toto je Chybová zpráva.");
         }
     }
 }

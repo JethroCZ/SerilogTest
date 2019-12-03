@@ -11,6 +11,7 @@ namespace Shared.Enrichers
         private LogEventProperty m_cachedProperty;
 
         public const string PropertyName = "ServerStart";
+        private string m_started = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff");
 
         /// <summary>
         /// Enrich the log event.
@@ -35,10 +36,10 @@ namespace Shared.Enrichers
 
         // Qualify as uncommon-path
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static LogEventProperty CreateProperty(ILogEventPropertyFactory propertyFactory)
+        private LogEventProperty CreateProperty(ILogEventPropertyFactory propertyFactory)
         {
-            var value = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss");
-            return propertyFactory.CreateProperty(PropertyName, value);
+            //var value = DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss.fff");
+            return propertyFactory.CreateProperty(PropertyName, m_started);
         }
     }
 }

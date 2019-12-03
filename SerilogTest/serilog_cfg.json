@@ -2,14 +2,15 @@
   "Serilog": {
     "Using": [ "Shared", "Serilog.Enrichers.AssemblyName", "Serilog.Enrichers.Environment", "Serilog.Enrichers.Thread" ],
     "MinimumLevel": {
-      "Default": "Verbose"
+      "Default": "Debug"
     },
-    "Enrich": [ "WithLoggedUser", "WithServerStart", "WithOperationSystem", "WithAssemblyVersion", "WithMachineName", "WithThreadId" ],
+    "Enrich": [ "WithLoggedUser", "WithServerStart", "WithOperationSystem", "WithAssemblyVersion", "WithMachineName", "WithThreadId", "FromLogContext" ],
+    "SelfLog": "Enable",
     "WriteTo": [
       {
         "Name": "Console",
         "Args": {
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine}{Exception}"
+          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId:d2}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine} Properties:{NewLine} {Properties}{NewLine} Exception:{NewLine} {Exception}{NewLine}"
         }
       },
       {
@@ -17,33 +18,23 @@
         "Args": {
           "Path": "%programdata%\\SerilogTest\\WebAPI-log.txt",
           "fileSizeLimitBytes": "20971520",
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine}{Exception}"
+          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId:d2}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine} Properties:{NewLine} {Properties}{NewLine} Exception:{NewLine} {Exception}{NewLine}"
+        }
+      },
+      {
+        "Name": "Email",
+        "Args": {
+          "connectionInfo": {
+            "FromEmail": "Sender",
+            "ToEmail": "Reciver",
+            "MailServer": "MailServer",
+            "EmailSubject": "Fatal error",
+            "Port": 25
+          },
+          "restrictedToMinimumLevel": "Fatal",
+          "outputTemplate": "[{Timestamp:HH:mm:ss.fff}]{NewLine} [Level:{Level:u3}]{NewLine}[Thread:{ThreadId:d2}]{NewLine} Message:{NewLine} {Message:lj}{NewLine} Exception:{NewLine} {Exception}"
         }
       }
-
-      // konfigurace Emailu
-      //,
-      //{
-      //  // odeslání na e-mail
-      //  "Name": "Email",
-      //  "Args": {
-      //    // informace o mailserveru, předmětu a dalších
-      //    "connectionInfo": {
-      //      // při testování si sem nastavte Email from a Email To
-      //      "FromEmail": "YourEmail",
-      //      "ToEmail": "YourEmail",
-      //      // pokud nemáte mejl u Pody, je nutné změnit mailserver (smtp) na váš daný (např u gmailu je to "smtp.gmail.com")
-      //      "MailServer": "mail.poda.cz",
-      //      // zde by bylo možné vytvořit si vlastní Enricher (použití Usingu pro namespace, kde je daný enricher uložen, a dále v kolonce "Enrich" doplnit tento enricher)
-      //      "EmailSubject": "Fatal error",
-      //      "Port": 25
-      //    },
-      //    // nastavení, overidenutí, levelu záznamu, to znamená, že v tomto sinku se budou zapisovat pouze zprávy s levele Fatal a vyšší (tedy žádné další)
-      //    "restrictedToMinimumLevel": "Fatal",
-      //    // jedním z argumentů je i specifický výpis pro daný záznam - musí být nastaven u každého sinku
-      //    "outputTemplate": "[{Timestamp:HH:mm:ss.fff} {ThreadId} {EventType:x8} {Level:u3}] {Message:lj}{NewLine}{Exception}"
-      //  }
-      //}
     ]
   }
 }
