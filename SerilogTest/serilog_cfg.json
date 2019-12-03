@@ -2,7 +2,7 @@
   "Serilog": {
     "Using": [ "Shared", "Serilog.Enrichers.AssemblyName", "Serilog.Enrichers.Environment", "Serilog.Enrichers.Thread" ],
     "MinimumLevel": {
-      "Default": "Debug"
+      "Default": "Verbose"
     },
     "Enrich": [ "WithLoggedUser", "WithServerStart", "WithOperationSystem", "WithAssemblyVersion", "WithMachineName", "WithThreadId", "FromLogContext" ],
     "SelfLog": "Enable",
@@ -28,10 +28,10 @@
             "FromEmail": "Sender",
             "ToEmail": "Reciver",
             "MailServer": "MailServer",
-            "EmailSubject": "Fatal error",
+            "EmailSubject": "Fatal or error",
             "Port": 25
           },
-          "restrictedToMinimumLevel": "Fatal",
+          "restrictedToMinimumLevel": "Error",
           "outputTemplate": "[{Timestamp:HH:mm:ss.fff}]{NewLine} [Level:{Level:u3}]{NewLine}[Thread:{ThreadId:d2}]{NewLine} Message:{NewLine} {Message:lj}{NewLine} Exception:{NewLine} {Exception}"
         }
       }

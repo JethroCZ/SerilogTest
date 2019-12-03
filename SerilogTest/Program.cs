@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks.Dataflow;
-using Microsoft.Extensions.Configuration;
-using Serilog;
+﻿using System.Diagnostics;
 using Serilog.Debugging;
 
 namespace SerilogTest

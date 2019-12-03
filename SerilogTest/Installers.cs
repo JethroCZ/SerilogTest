@@ -14,7 +14,11 @@ namespace SerilogTest
         {
             container.Register(Component.For<IApp>().ImplementedBy<App>().LifestyleSingleton());
             container.Register(Component.For<SerilogConfig>().ImplementedBy<SerilogConfig>().LifestyleSingleton());
-            container.AddFacility<LoggingFacility>(f => f.LogUsing(new SerilogFactory(new LoggerConfiguration().ReadFrom.Configuration(container.Resolve<SerilogConfig>().GetConfiguration()).CreateLogger())));
+            container.AddFacility<LoggingFacility>(f => 
+                f.LogUsing(
+                    new SerilogFactory(
+                        new LoggerConfiguration().ReadFrom.Configuration(
+                            container.Resolve<SerilogConfig>().GetConfiguration()).CreateLogger())));
         }
     }
 }
