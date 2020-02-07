@@ -23,12 +23,13 @@ namespace SerilogTest
         {
             Console.WriteLine("Zápis do logu: typ Debug.");
             m_logger.Debug("Toto je Debugovací zpráva.");
+            Console.WriteLine("");
         }
 
         private void ShowError()
         {
             Console.WriteLine("Zápis do logu: typ Error.");
-            m_logger.Error("Toto je Chybová zpráva.");
+            m_logger.Error("Toto je Chybová zpráva.", new ArgumentNullException("AAAAAAAAAAaaaaa"));
         }
     }
 }

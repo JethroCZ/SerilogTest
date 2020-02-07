@@ -4,13 +4,13 @@
     "MinimumLevel": {
       "Default": "Verbose"
     },
-    "Enrich": [ "WithLoggedUser", "WithServerStart", "WithOperationSystem", "WithAssemblyVersion", "WithMachineName", "WithThreadId", "FromLogContext" ],
+    "Enrich": [ "WithLogException", "WithLoggedUser", "WithServerStart", "WithOperationSystem", "WithAssemblyVersion", "WithMachineName", "WithThreadId", "FromLogContext" ],
     "SelfLog": "Enable",
     "WriteTo": [
       {
         "Name": "Console",
         "Args": {
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId:d2}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine} Properties:{NewLine} {Properties}{NewLine} Exception:{NewLine} {Exception}{NewLine}"
+          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId:d2}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine} Properties:{NewLine} {Properties}{LogException}{NewLine}{NewLine}{Exception}{NewLine}"
         }
       },
       {
@@ -18,7 +18,7 @@
         "Args": {
           "Path": "%programdata%\\SerilogTest\\WebAPI-log.txt",
           "fileSizeLimitBytes": "20971520",
-          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId:d2}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine} Properties:{NewLine} {Properties}{NewLine} Exception:{NewLine} {Exception}{NewLine}"
+          "outputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss,fff} [{ThreadId:d2}] {Level:u5} [{ndc:u8}] usr:{LoggedUser:u10} {Message:lj}{NewLine} Properties:{NewLine} {Properties}{LogException}{NewLine}{NewLine}{Exception}{NewLine}"
         }
       },
       {

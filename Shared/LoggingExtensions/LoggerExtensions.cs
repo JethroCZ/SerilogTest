@@ -39,5 +39,16 @@ namespace Shared.LoggingExtensions
 
             return enrich.With<LoggedUserEnricher>();
         }
+
+        public static LoggerConfiguration WithLogException(
+            this LoggerEnrichmentConfiguration enrich)
+        {
+            if (enrich == null)
+            {
+                throw new ArgumentNullException(nameof(enrich));
+            }
+
+            return enrich.With<LogExceptionEnricher>();
+        }
     }
 }
