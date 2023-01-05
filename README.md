@@ -6,3 +6,6 @@ Jsou zde doplněny nuget balíčky pro Sinky na Teamsy a MongoDB, které jsem ch
 Komentáře by měly vše, doufám dostatečně, popisovat a vysvětlit proč to tak je.
 
 Testovací větev - takže testovací úpravy, že.
+
+
+Dva systémy, jeden je git a jeden je filesystem.
